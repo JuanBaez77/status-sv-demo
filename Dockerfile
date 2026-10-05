@@ -1,4 +1,7 @@
-FROM python:3.12-slim
+# La copia oficial que Docker publica en ECR Public: Docker Hub limita las
+# descargas sin cuenta por IP, y un servidor que comparte IP se queda sin
+# cupo (429 Too Many Requests).
+FROM public.ecr.aws/docker/library/python:3.12-slim
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
