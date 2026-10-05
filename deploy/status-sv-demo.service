@@ -1,0 +1,20 @@
+# La unidad del sitio de demostración corriendo con gunicorn, como servicio de
+# systemd. Va en /etc/systemd/system/ del servidor.
+[Unit]
+Description=status-sv-demo (gunicorn)
+After=network.target
+
+[Service]
+User=statusdemo
+Group=statusdemo
+WorkingDirectory=/srv/status-sv-demo
+ExecStart=/srv/status-sv-demo/.venv/bin/gunicorn --bind 127.0.0.1:18095 --workers 2 app:app
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

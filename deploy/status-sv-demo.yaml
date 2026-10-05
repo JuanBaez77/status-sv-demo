@@ -1,0 +1,22 @@
+# Declaración del proyecto de systemd: va en
+# /etc/status-sv/projects.d/status-sv-demo.yaml (root:statussv 0640).
+name: status-sv-demo
+environment: staging
+repo: github.com/JuanBaez77/status-sv-demo
+branch: main
+runtime: systemd
+workdir: /srv/status-sv-demo
+units:
+  - status-sv-demo.service
+run_as: statusdemo
+healthcheck:
+  url: http://127.0.0.1:18095/health
+  expect_status: 200
+  timeout_seconds: 5
+deploy:
+  build:
+    - command: ["/usr/bin/python3", "-m", "venv", ".venv"]
+      timeout_seconds: 120
+    - command: [".venv/bin/pip", "install", "--no-cache-dir", "--disable-pip-version-check", "-r", "requirements.txt"]
+      timeout_seconds: 600
+rollback: previous_commit

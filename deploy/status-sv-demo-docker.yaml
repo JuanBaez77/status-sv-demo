@@ -1,0 +1,14 @@
+# Declaración del mismo sitio como proyecto de Docker Compose: va en
+# /etc/status-sv/projects.d/status-sv-demo-docker.yaml (root:statussv 0640).
+name: status-sv-demo-docker
+environment: staging
+repo: github.com/JuanBaez77/status-sv-demo
+branch: main
+runtime: docker
+compose_file: compose.yml
+compose_project: status-sv-demo-docker
+workdir: /srv/status-sv-demo-docker
+healthcheck:
+  url: http://127.0.0.1:18096/health
+  expect_status: 200
+  timeout_seconds: 5
